@@ -4,7 +4,7 @@ FROM golang:1.26-alpine3.24 AS build-stage
 
 WORKDIR /app
 
-COPY --link go.mod go.sum* .
+COPY --link go.mod go.sum ./
 RUN go mod download
 
 COPY --link --exclude=web . .

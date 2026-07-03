@@ -34,7 +34,7 @@ func main() {
 
 	slog.Info("Setting up HTML server...")
 	mux := http.NewServeMux()
-	srv := &http.Server{Addr: ":8080", Handler: mux}
+	srv := &http.Server{Addr: "0.0.0.0:80", Handler: mux}
 
 	mux.HandleFunc("/{$}", index.HandleIndex)
 	mux.Handle("/send", index.HandleEmail(gmailDialer))
