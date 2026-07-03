@@ -64,11 +64,9 @@ func NewGmailDialer(sender, appPassword string) (*GmailDialer, error) {
 	return &GmailDialer{*parsedEmailAddress, appPassword}, nil
 }
 
-// function not unit tested because all validations are done in the constructors
-// smtp email errors can't be unit tested
-func (d *GmailDialer) Send(e *Email) error {
+func (e *Email) buildMessageWithDialer(dialer *GmailDialer) *gomail.Message {
 	message := gomail.NewMessage()
-	message.SetHeader("From", d.sender.Address)
+	message.SetHeader("From", dialer.sender.Address)
 	message.SetHeader("To", e.receiver.Address)
 	message.SetHeader("Subject", e.subject)
 
@@ -79,6 +77,12 @@ func (d *GmailDialer) Send(e *Email) error {
 		message.SetBody("text/html", e.htmlBody)
 	}
 
+	return message
+}
+
+// function not unit tested beacuse smtp email errors can't be unit tested
+func (d *GmailDialer) Send(e *Email) error {
+	message := e.buildMessageWithDialer(d)
 	dialer := gomail.NewDialer(GMAIL_SMTP_URL, GMAIL_SMTP_PORT, d.sender.Address, d.appPassword)
 
 	if err := dialer.DialAndSend(message); err != nil {
