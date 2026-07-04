@@ -70,11 +70,9 @@ func (e *Email) buildMessageWithDialer(dialer *GmailDialer) *gomail.Message {
 	message.SetHeader("To", e.receiver.Address)
 	message.SetHeader("Subject", e.subject)
 
-	if e.htmlBody == "" {
-		message.SetBody("text/plain", e.textBody)
-	} else {
-		message.AddAlternative("text/plain", e.textBody)
-		message.SetBody("text/html", e.htmlBody)
+	message.SetBody("text/plain", e.textBody)
+	if e.htmlBody != "" {
+		message.AddAlternative("text/html", e.htmlBody)
 	}
 
 	return message
