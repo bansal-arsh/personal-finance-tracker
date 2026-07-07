@@ -5,6 +5,7 @@ description = "Provides API endpoints for the Go backend to talk to Supabase API
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
+    "fastapi-cli>=0.0.28",
     "fastapi[standard]>=0.139.0",
     "python-dotenv>=1.2.2",
     "supabase>=2.31.0",
