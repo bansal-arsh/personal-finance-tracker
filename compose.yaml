@@ -1,9 +1,33 @@
 services:
-  app:
-    build: .
-    env_file:
-      - .env
+  server:
+    pull_policy: daily
+    build: ./go-server/
     environment:
       - ENV=PROD
+    env_file: ./go-server/.env
     ports:
-      - "3000:80"
+      - name: web
+        target: 80
+        published: "3000"
+    depends_on:
+      - python-supabase-api
+    networks:
+      - app
+
+  python-supabase-api:
+    pull_policy: daily
+    build: ./python-supabase-api/
+    environment:
+      - ENV=PROD
+    env_file: ./python-supabase-api/.env
+    expose:
+      - "8000"
+    networks:
+      app:
+        aliases:
+          - "supabase.api"
+
+networks:
+  app:
+    name: "Main network"
+    driver: bridge
