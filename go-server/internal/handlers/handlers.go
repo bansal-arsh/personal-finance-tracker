@@ -8,7 +8,7 @@ import (
 )
 
 func HandleIndex(w http.ResponseWriter, _ *http.Request) {
-	w.Write([]byte("Welcome"))
+	w.Write([]byte("Welcome to website"))
 }
 
 func HandleEmail(gd *email.GmailDialer) http.HandlerFunc {
